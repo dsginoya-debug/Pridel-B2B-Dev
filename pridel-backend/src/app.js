@@ -10,6 +10,21 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+// Root route
+app.get('/', (req, res) => {
+  res.json({
+    message: 'Pridel Industries B2B API',
+    version: '1.0.0',
+    status: 'running',
+    endpoints: {
+      auth: '/api/auth',
+      users: '/api/users',
+      products: '/api/products',
+      inquiries: '/api/inquiries',
+      orders: '/api/orders'
+    }
+  });
+});
 // Mount routers
 app.use('/api/auth', auth);
 app.use('/api/users', users);

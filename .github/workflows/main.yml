@@ -1,0 +1,70 @@
+name: Pridel B2B Backend CI/CD
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        cache-dependency-path: pridel-backend/package-lock.json
+    
+    - name: Install dependencies
+      working-directory: ./pridel-backend
+      run: npm ci
+    
+    - name: Run linter
+      working-directory: ./pridel-backend
+      run: npm run lint --if-present
+    
+    - name: Run tests
+      working-directory: ./pridel-backend
+      run: npm test --if-present
+      env:
+        NODE_ENV: test
+    
+    - name: Build project
+      working-directory: ./pridel-backend
+      run: npm run build --if-present
+    
+    - name: Check for security vulnerabilities
+      working-directory: ./pridel-backend
+      run: npm audit --audit-level=moderate
+      continue-on-error: true
+
+  code-quality:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+    
+    - name: Install dependencies
+      working-directory: ./pridel-backend
+      run: npm ci
+    
+    - name: Check code formatting
+      working-directory: ./pridel-backend
+      run: npm run format:check --if-present
+      continue-on-error: true

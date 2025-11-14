@@ -25,9 +25,40 @@
         .product-code { color: #666; font-size: 0.9rem; }
         .product-desc { color: #666; font-size: 0.9rem; margin: 0.5rem 0; }
         .product-price { color: #667eea; font-size: 1.3rem; font-weight: bold; margin: 1rem 0; }
+        .quantity-selector { display: flex; align-items: center; gap: 1rem; margin: 1rem 0; }
+        .qty-btn { width: 35px; height: 35px; border: none; background: #f0f0f0; border-radius: 5px; cursor: pointer; font-size: 1.1rem; font-weight: bold; transition: all 0.3s; }
+        .qty-btn:hover { background: #667eea; color: white; }
+        .qty-input { width: 60px; text-align: center; border: 2px solid #e0e0e0; border-radius: 5px; padding: 0.5rem; font-size: 1rem; }
         .add-to-cart { width: 100%; padding: 0.8rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: opacity 0.3s; }
         .add-to-cart:hover { opacity: 0.9; }
-        .cart-summary { position: fixed; bottom: 20px; right: 20px; background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+        .cart-summary { position: fixed; bottom: 20px; right: 20px; background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); min-width: 280px; max-width: 350px; z-index: 1000; }
+        .cart-summary h3 { margin-bottom: 1rem; color: #333; }
+        .cart-items { max-height: 300px; overflow-y: auto; margin-bottom: 1rem; }
+        .cart-item { padding: 0.8rem; background: #f8f8f8; border-radius: 5px; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center; }
+        .cart-item-info { flex: 1; }
+        .cart-item-name { font-weight: 500; font-size: 0.9rem; }
+        .cart-item-price { color: #667eea; font-size: 0.85rem; }
+        .cart-item-qty { color: #666; font-size: 0.85rem; }
+        .remove-item { background: #ff4444; color: white; border: none; padding: 0.3rem 0.6rem; border-radius: 3px; cursor: pointer; font-size: 0.8rem; }
+        .remove-item:hover { background: #cc0000; }
+        .cart-total { border-top: 2px solid #e0e0e0; padding-top: 1rem; margin-top: 1rem; display: flex; justify-content: space-between; font-weight: bold; font-size: 1.1rem; }
+        .checkout-btn { width: 100%; padding: 1rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 1rem; transition: opacity 0.3s; }
+        .checkout-btn:hover { opacity: 0.9; }
+        .empty-cart { text-align: center; color: #999; padding: 2rem 0; }
+        .cart-badge { background: #ff4444; color: white; border-radius: 50%; padding: 0.2rem 0.5rem; font-size: 0.8rem; margin-left: 0.5rem; }
+        
+        /* Modal Styles */
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); }
+        .modal.active { display: flex; align-items: center; justify-content: center; }
+        .modal-content { background: white; padding: 2rem; border-radius: 10px; max-width: 500px; width: 90%; box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        .modal-header h2 { color: #333; }
+        .close-modal { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #999; }
+        .close-modal:hover { color: #333; }
+        .success-icon { text-align: center; font-size: 4rem; margin-bottom: 1rem; }
+        .modal-message { text-align: center; color: #666; margin-bottom: 1.5rem; line-height: 1.6; }
+        .modal-btn { width: 100%; padding: 0.8rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .modal-btn:hover { opacity: 0.9; }
     </style>
 </head>
 <body>
@@ -44,145 +75,206 @@
     </header>
 
     <div class="container">
-        <h2 style="color: #667eea; margin-bottom: 2rem;">Pridel Products Catalog</h2>
+        <h2 style="color: #667eea; margin-bottom: 1.5rem;">Pridel Products Catalog</h2>
         
         <div class="category-filter">
             <button class="filter-btn active" onclick="filterProducts('all')">All Products</button>
-            <button class="filter-btn" onclick="filterProducts('floor-drains')">Floor Drains</button>
+            <button class="filter-btn" onclick="filterProducts('floor-drain')">Floor Drains</button>
             <button class="filter-btn" onclick="filterProducts('bathroom-accessories')">Bathroom Accessories</button>
         </div>
 
-        <div class="products-grid" id="productsGrid">
-            <!-- Floor Drains -->
-            <div class="product-card" data-category="floor-drains">
+        <div class="products-grid">
+
+            <!-- Floor Drain Products -->
+            <div class="product-card" data-category="floor-drain">
                 <div class="product-image">🚿</div>
                 <div class="product-info">
                     <h3>Square Floor Drain Premium</h3>
-                    <p class="product-code">SKU: PFD-001</p>
+                    <div class="product-code">SKU: PFD-001</div>
                     <p class="product-desc">Stainless steel square floor drain</p>
-                    <p class="product-price">₹3,750</p>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <div class="product-price">₹3,750</div>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changeQty('PFD-001', -1)">-</button>
+                        <input type="number" id="qty-PFD-001" class="qty-input" value="1" min="1" max="999">
+                        <button class="qty-btn" onclick="changeQty('PFD-001', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('PFD-001', 'Square Floor Drain Premium', 3750)">Add to Cart</button>
                 </div>
             </div>
 
-            <div class="product-card" data-category="floor-drains">
+            <div class="product-card" data-category="floor-drain">
                 <div class="product-image">🚿</div>
                 <div class="product-info">
                     <h3>Cockroach Trap Auto Close</h3>
-                    <p class="product-code">SKU: PFD-002</p>
+                    <div class="product-code">SKU: PFD-002</div>
                     <p class="product-desc">Auto-close mechanism cockroach trap</p>
-                    <p class="product-price">₹4,200</p>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <div class="product-price">₹4,200</div>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changeQty('PFD-002', -1)">-</button>
+                        <input type="number" id="qty-PFD-002" class="qty-input" value="1" min="1" max="999">
+                        <button class="qty-btn" onclick="changeQty('PFD-002', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('PFD-002', 'Cockroach Trap Auto Close', 4200)">Add to Cart</button>
                 </div>
             </div>
 
-            <div class="product-card" data-category="floor-drains">
+            <div class="product-card" data-category="floor-drain">
                 <div class="product-image">🚿</div>
                 <div class="product-info">
                     <h3>Cockroach Trap Double Bowl</h3>
-                    <p class="product-code">SKU: PFD-003</p>
-                    <p class="product-desc">Double bowl cockroach trap design</p>
-                    <p class="product-price">₹4,500</p>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <div class="product-code">SKU: PFD-003</div>
+                    <p class="product-desc">Double bowl cockroach trap</p>
+                    <div class="product-price">₹4,500</div>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changeQty('PFD-003', -1)">-</button>
+                        <input type="number" id="qty-PFD-003" class="qty-input" value="1" min="1" max="999">
+                        <button class="qty-btn" onclick="changeQty('PFD-003', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('PFD-003', 'Cockroach Trap Double Bowl', 4500)">Add to Cart</button>
                 </div>
             </div>
 
-            <div class="product-card" data-category="floor-drains">
+            <div class="product-card" data-category="floor-drain">
                 <div class="product-image">🚿</div>
                 <div class="product-info">
-                    <h3>Flat Cut Floor Drain</h3>
-                    <p class="product-code">SKU: PFD-004</p>
-                    <p class="product-desc">Modern flat cut design</p>
-                    <p class="product-price">₹3,950</p>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <h3>Designer Floor Drain Circle</h3>
+                    <div class="product-code">SKU: PFD-004</div>
+                    <p class="product-desc">Premium circular designer drain</p>
+                    <div class="product-price">₹5,200</div>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changeQty('PFD-004', -1)">-</button>
+                        <input type="number" id="qty-PFD-004" class="qty-input" value="1" min="1" max="999">
+                        <button class="qty-btn" onclick="changeQty('PFD-004', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('PFD-004', 'Designer Floor Drain Circle', 5200)">Add to Cart</button>
                 </div>
             </div>
 
-            <div class="product-card" data-category="floor-drains">
+            <div class="product-card" data-category="floor-drain">
                 <div class="product-image">🚿</div>
                 <div class="product-info">
-                    <h3>Flat Cut Cockroach Trap</h3>
-                    <p class="product-code">SKU: PFD-005</p>
-                    <p class="product-desc">Flat design with trap mechanism</p>
-                    <p class="product-price">₹4,100</p>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <h3>Linear Channel Drain 24"</h3>
+                    <div class="product-code">SKU: PFD-005</div>
+                    <p class="product-desc">24-inch linear channel drain</p>
+                    <div class="product-price">₹6,200</div>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changeQty('PFD-005', -1)">-</button>
+                        <input type="number" id="qty-PFD-005" class="qty-input" value="1" min="1" max="999">
+                        <button class="qty-btn" onclick="changeQty('PFD-005', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('PFD-005', 'Linear Channel Drain 24\"', 6200)">Add to Cart</button>
                 </div>
             </div>
 
-            <div class="product-card" data-category="floor-drains">
+            <div class="product-card" data-category="floor-drain">
                 <div class="product-image">🚿</div>
                 <div class="product-info">
-                    <h3>Locking Drain Square</h3>
-                    <p class="product-code">SKU: PFD-006</p>
-                    <p class="product-desc">Square locking mechanism drain</p>
-                    <p class="product-price">₹4,350</p>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <h3>Linear Channel Drain 36"</h3>
+                    <div class="product-code">SKU: PFD-006</div>
+                    <p class="product-desc">36-inch linear channel drain</p>
+                    <div class="product-price">₹7,500</div>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changeQty('PFD-006', -1)">-</button>
+                        <input type="number" id="qty-PFD-006" class="qty-input" value="1" min="1" max="999">
+                        <button class="qty-btn" onclick="changeQty('PFD-006', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('PFD-006', 'Linear Channel Drain 36\"', 7500)">Add to Cart</button>
                 </div>
             </div>
 
-            <div class="product-card" data-category="floor-drains">
+            <div class="product-card" data-category="floor-drain">
                 <div class="product-image">🚿</div>
                 <div class="product-info">
-                    <h3>Locking Drain Round</h3>
-                    <p class="product-code">SKU: PFD-007</p>
-                    <p class="product-desc">Round locking mechanism drain</p>
-                    <p class="product-price">₹4,300</p>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <h3>Jali Floor Drain Square</h3>
+                    <div class="product-code">SKU: PFD-007</div>
+                    <p class="product-desc">Traditional jali design square drain</p>
+                    <div class="product-price">₹2,800</div>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changeQty('PFD-007', -1)">-</button>
+                        <input type="number" id="qty-PFD-007" class="qty-input" value="1" min="1" max="999">
+                        <button class="qty-btn" onclick="changeQty('PFD-007', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('PFD-007', 'Jali Floor Drain Square', 2800)">Add to Cart</button>
                 </div>
             </div>
 
-            <div class="product-card" data-category="floor-drains">
+            <div class="product-card" data-category="floor-drain">
                 <div class="product-image">🚿</div>
                 <div class="product-info">
-                    <h3>Fix Drain & Cockroach Bowl</h3>
-                    <p class="product-code">SKU: PFD-008</p>
-                    <p class="product-desc">Fixed drain with roach protection</p>
-                    <p class="product-price">₹4,600</p>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <h3>Jali Floor Drain Round</h3>
+                    <div class="product-code">SKU: PFD-008</div>
+                    <p class="product-desc">Traditional jali design round drain</p>
+                    <div class="product-price">₹2,600</div>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changeQty('PFD-008', -1)">-</button>
+                        <input type="number" id="qty-PFD-008" class="qty-input" value="1" min="1" max="999">
+                        <button class="qty-btn" onclick="changeQty('PFD-008', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('PFD-008', 'Jali Floor Drain Round', 2600)">Add to Cart</button>
                 </div>
             </div>
 
-            <div class="product-card" data-category="floor-drains">
+            <div class="product-card" data-category="floor-drain">
                 <div class="product-image">🚿</div>
                 <div class="product-info">
-                    <h3>Tiles Insert Drain</h3>
-                    <p class="product-code">SKU: PFD-009</p>
-                    <p class="product-desc">Tile insert invisible drain</p>
-                    <p class="product-price">₹5,200</p>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <h3>Premium Heavy Duty Drain</h3>
+                    <div class="product-code">SKU: PFD-009</div>
+                    <p class="product-desc">Heavy duty commercial drain</p>
+                    <div class="product-price">₹8,500</div>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changeQty('PFD-009', -1)">-</button>
+                        <input type="number" id="qty-PFD-009" class="qty-input" value="1" min="1" max="999">
+                        <button class="qty-btn" onclick="changeQty('PFD-009', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('PFD-009', 'Premium Heavy Duty Drain', 8500)">Add to Cart</button>
                 </div>
             </div>
 
-            <div class="product-card" data-category="floor-drains">
-                <div class="product-image">🚿</div>
-                <div class="product-info">
-                    <h3>Shower Channel Drain</h3>
-                    <p class="product-code">SKU: PFD-010</p>
-                    <p class="product-desc">Linear channel shower drain</p>
-                    <p class="product-price">₹6,500</p>
-                    <button class="add-to-cart">Add to Cart</button>
-                </div>
-            </div>
-
-            <div class="product-card" data-category="floor-drains">
+            <div class="product-card" data-category="floor-drain">
                 <div class="product-image">🚿</div>
                 <div class="product-info">
                     <h3>Shower & Shower Arm</h3>
-                    <p class="product-code">SKU: PFD-011</p>
+                    <div class="product-code">SKU: PFD-011</div>
                     <p class="product-desc">Complete shower system</p>
-                    <p class="product-price">₹8,500</p>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <div class="product-price">₹8,500</div>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changeQty('PFD-011', -1)">-</button>
+                        <input type="number" id="qty-PFD-011" class="qty-input" value="1" min="1" max="999">
+                        <button class="qty-btn" onclick="changeQty('PFD-011', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('PFD-011', 'Shower & Shower Arm', 8500)">Add to Cart</button>
                 </div>
             </div>
 
-            <div class="product-card" data-category="floor-drains">
+            <div class="product-card" data-category="floor-drain">
+                <div class="product-image">🚿</div>
+                <div class="product-info">
+                    <h3>Shower Channel Drain</h3>
+                    <div class="product-code">SKU: PFD-010</div>
+                    <p class="product-desc">Linear channel shower drain</p>
+                    <div class="product-price">₹6,500</div>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changeQty('PFD-010', -1)">-</button>
+                        <input type="number" id="qty-PFD-010" class="qty-input" value="1" min="1" max="999">
+                        <button class="qty-btn" onclick="changeQty('PFD-010', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('PFD-010', 'Shower Channel Drain', 6500)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="floor-drain">
                 <div class="product-image">🚿</div>
                 <div class="product-info">
                     <h3>Rack Bolt</h3>
-                    <p class="product-code">SKU: PFD-012</p>
+                    <div class="product-code">SKU: PFD-012</div>
                     <p class="product-desc">Heavy duty rack bolt system</p>
-                    <p class="product-price">₹3,200</p>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <div class="product-price">₹3,200</div>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changeQty('PFD-012', -1)">-</button>
+                        <input type="number" id="qty-PFD-012" class="qty-input" value="1" min="1" max="999">
+                        <button class="qty-btn" onclick="changeQty('PFD-012', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('PFD-012', 'Rack Bolt', 3200)">Add to Cart</button>
                 </div>
             </div>
 
@@ -191,10 +283,15 @@
                 <div class="product-image">🚿</div>
                 <div class="product-info">
                     <h3>Angel Collection - Soap Dish</h3>
-                    <p class="product-code">SKU: PBA-101</p>
+                    <div class="product-code">SKU: PBA-101</div>
                     <p class="product-desc">Premium chrome soap dish</p>
-                    <p class="product-price">₹2,950</p>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <div class="product-price">₹2,950</div>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changeQty('PBA-101', -1)">-</button>
+                        <input type="number" id="qty-PBA-101" class="qty-input" value="1" min="1" max="999">
+                        <button class="qty-btn" onclick="changeQty('PBA-101', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('PBA-101', 'Angel Collection - Soap Dish', 2950)">Add to Cart</button>
                 </div>
             </div>
 
@@ -202,10 +299,31 @@
                 <div class="product-image">🚿</div>
                 <div class="product-info">
                     <h3>Angel Collection - Towel Rod</h3>
-                    <p class="product-code">SKU: PBA-102</p>
+                    <div class="product-code">SKU: PBA-102</div>
                     <p class="product-desc">24" stainless steel towel rod</p>
-                    <p class="product-price">₹3,450</p>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <div class="product-price">₹3,450</div>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changeQty('PBA-102', -1)">-</button>
+                        <input type="number" id="qty-PBA-102" class="qty-input" value="1" min="1" max="999">
+                        <button class="qty-btn" onclick="changeQty('PBA-102', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('PBA-102', 'Angel Collection - Towel Rod', 3450)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="bathroom-accessories">
+                <div class="product-image">🚿</div>
+                <div class="product-info">
+                    <h3>Aura Collection - Soap Dish</h3>
+                    <div class="product-code">SKU: PBA-201</div>
+                    <p class="product-desc">Modern designer soap dish</p>
+                    <div class="product-price">₹2,750</div>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changeQty('PBA-201', -1)">-</button>
+                        <input type="number" id="qty-PBA-201" class="qty-input" value="1" min="1" max="999">
+                        <button class="qty-btn" onclick="changeQty('PBA-201', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('PBA-201', 'Aura Collection - Soap Dish', 2750)">Add to Cart</button>
                 </div>
             </div>
 
@@ -213,186 +331,239 @@
                 <div class="product-image">🚿</div>
                 <div class="product-info">
                     <h3>Aura Collection - Towel Ring</h3>
-                    <p class="product-code">SKU: PBA-201</p>
-                    <p class="product-desc">Modern design towel ring</p>
-                    <p class="product-price">₹2,750</p>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <div class="product-code">SKU: PBA-202</div>
+                    <p class="product-desc">Circular towel ring holder</p>
+                    <div class="product-price">₹3,100</div>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changeQty('PBA-202', -1)">-</button>
+                        <input type="number" id="qty-PBA-202" class="qty-input" value="1" min="1" max="999">
+                        <button class="qty-btn" onclick="changeQty('PBA-202', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('PBA-202', 'Aura Collection - Towel Ring', 3100)">Add to Cart</button>
                 </div>
             </div>
 
             <div class="product-card" data-category="bathroom-accessories">
                 <div class="product-image">🚿</div>
                 <div class="product-info">
-                    <h3>Aura Collection - Paper Holder</h3>
-                    <p class="product-code">SKU: PBA-202</p>
-                    <p class="product-desc">Wall mounted paper holder</p>
-                    <p class="product-price">₹2,500</p>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <h3>Crystal Collection - Towel Rail</h3>
+                    <div class="product-code">SKU: PBA-301</div>
+                    <p class="product-desc">Premium crystal finish towel rail</p>
+                    <div class="product-price">₹3,850</div>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changeQty('PBA-301', -1)">-</button>
+                        <input type="number" id="qty-PBA-301" class="qty-input" value="1" min="1" max="999">
+                        <button class="qty-btn" onclick="changeQty('PBA-301', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('PBA-301', 'Crystal Collection - Towel Rail', 3850)">Add to Cart</button>
                 </div>
             </div>
 
             <div class="product-card" data-category="bathroom-accessories">
                 <div class="product-image">🚿</div>
                 <div class="product-info">
-                    <h3>Crystal Collection - Robe Hook</h3>
-                    <p class="product-code">SKU: PBA-301</p>
-                    <p class="product-desc">Double robe hook chrome</p>
-                    <p class="product-price">₹2,200</p>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <h3>Crystal Collection - Toilet Brush</h3>
+                    <div class="product-code">SKU: PBA-302</div>
+                    <p class="product-desc">Crystal design toilet brush holder</p>
+                    <div class="product-price">₹2,200</div>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changeQty('PBA-302', -1)">-</button>
+                        <input type="number" id="qty-PBA-302" class="qty-input" value="1" min="1" max="999">
+                        <button class="qty-btn" onclick="changeQty('PBA-302', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('PBA-302', 'Crystal Collection - Toilet Brush', 2200)">Add to Cart</button>
                 </div>
             </div>
 
             <div class="product-card" data-category="bathroom-accessories">
                 <div class="product-image">🚿</div>
                 <div class="product-info">
-                    <h3>Crystal Collection - Soap Dispenser</h3>
-                    <p class="product-code">SKU: PBA-302</p>
-                    <p class="product-desc">Wall mounted soap dispenser</p>
-                    <p class="product-price">₹3,850</p>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <h3>Elista Collection - Paper Holder</h3>
+                    <div class="product-code">SKU: PBA-401</div>
+                    <p class="product-desc">Wall mount paper holder</p>
+                    <div class="product-price">₹2,450</div>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changeQty('PBA-401', -1)">-</button>
+                        <input type="number" id="qty-PBA-401" class="qty-input" value="1" min="1" max="999">
+                        <button class="qty-btn" onclick="changeQty('PBA-401', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('PBA-401', 'Elista Collection - Paper Holder', 2450)">Add to Cart</button>
                 </div>
             </div>
 
             <div class="product-card" data-category="bathroom-accessories">
                 <div class="product-image">🚿</div>
                 <div class="product-info">
-                    <h3>Elista Collection - Towel Rack</h3>
-                    <p class="product-code">SKU: PBA-401</p>
-                    <p class="product-desc">Multi-tier towel rack</p>
-                    <p class="product-price">₹4,500</p>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <h3>Elista Collection - Robe Hook</h3>
+                    <div class="product-code">SKU: PBA-402</div>
+                    <p class="product-desc">Modern design robe hook</p>
+                    <div class="product-price">₹1,950</div>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changeQty('PBA-402', -1)">-</button>
+                        <input type="number" id="qty-PBA-402" class="qty-input" value="1" min="1" max="999">
+                        <button class="qty-btn" onclick="changeQty('PBA-402', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('PBA-402', 'Elista Collection - Robe Hook', 1950)">Add to Cart</button>
                 </div>
             </div>
 
             <div class="product-card" data-category="bathroom-accessories">
                 <div class="product-image">🚿</div>
                 <div class="product-info">
-                    <h3>Elista Collection - Shelf Glass</h3>
-                    <p class="product-code">SKU: PBA-402</p>
-                    <p class="product-desc">Tempered glass shelf</p>
-                    <p class="product-price">₹5,200</p>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <h3>Ocean Collection - Towel Bar 18"</h3>
+                    <div class="product-code">SKU: PBA-501</div>
+                    <p class="product-desc">18-inch ocean design towel bar</p>
+                    <div class="product-price">₹3,250</div>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changeQty('PBA-501', -1)">-</button>
+                        <input type="number" id="qty-PBA-501" class="qty-input" value="1" min="1" max="999">
+                        <button class="qty-btn" onclick="changeQty('PBA-501', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('PBA-501', 'Ocean Collection - Towel Bar 18\"', 3250)">Add to Cart</button>
                 </div>
             </div>
 
             <div class="product-card" data-category="bathroom-accessories">
                 <div class="product-image">🚿</div>
                 <div class="product-info">
-                    <h3>Ocean Collection - Tumbler Holder</h3>
-                    <p class="product-code">SKU: PBA-501</p>
-                    <p class="product-desc">Chrome tumbler holder</p>
-                    <p class="product-price">₹2,650</p>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <h3>Ocean Collection - Shelf</h3>
+                    <div class="product-code">SKU: PBA-502</div>
+                    <p class="product-desc">Chrome finish bathroom shelf</p>
+                    <div class="product-price">₹4,500</div>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changeQty('PBA-502', -1)">-</button>
+                        <input type="number" id="qty-PBA-502" class="qty-input" value="1" min="1" max="999">
+                        <button class="qty-btn" onclick="changeQty('PBA-502', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('PBA-502', 'Ocean Collection - Shelf', 4500)">Add to Cart</button>
                 </div>
             </div>
 
             <div class="product-card" data-category="bathroom-accessories">
                 <div class="product-image">🚿</div>
                 <div class="product-info">
-                    <h3>Ocean Collection - Towel Shelf</h3>
-                    <p class="product-code">SKU: PBA-502</p>
-                    <p class="product-desc">Chrome towel shelf with bar</p>
-                    <p class="product-price">₹4,800</p>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <h3>Liva Collection - Tumbler Holder</h3>
+                    <div class="product-code">SKU: PBA-601</div>
+                    <p class="product-desc">Premium tumbler holder</p>
+                    <div class="product-price">₹2,850</div>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changeQty('PBA-601', -1)">-</button>
+                        <input type="number" id="qty-PBA-601" class="qty-input" value="1" min="1" max="999">
+                        <button class="qty-btn" onclick="changeQty('PBA-601', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('PBA-601', 'Liva Collection - Tumbler Holder', 2850)">Add to Cart</button>
                 </div>
             </div>
 
             <div class="product-card" data-category="bathroom-accessories">
                 <div class="product-image">🚿</div>
                 <div class="product-info">
-                    <h3>Liva Collection - Soap Holder</h3>
-                    <p class="product-code">SKU: PBA-601</p>
-                    <p class="product-desc">Contemporary soap holder</p>
-                    <p class="product-price">₹2,450</p>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <h3>Liva Collection - Soap Dispenser</h3>
+                    <div class="product-code">SKU: PBA-602</div>
+                    <p class="product-desc">Liquid soap dispenser</p>
+                    <div class="product-price">₹3,200</div>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changeQty('PBA-602', -1)">-</button>
+                        <input type="number" id="qty-PBA-602" class="qty-input" value="1" min="1" max="999">
+                        <button class="qty-btn" onclick="changeQty('PBA-602', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('PBA-602', 'Liva Collection - Soap Dispenser', 3200)">Add to Cart</button>
                 </div>
             </div>
 
             <div class="product-card" data-category="bathroom-accessories">
                 <div class="product-image">🚿</div>
                 <div class="product-info">
-                    <h3>Liva Collection - Napkin Ring</h3>
-                    <p class="product-code">SKU: PBA-602</p>
-                    <p class="product-desc">Modern napkin ring chrome</p>
-                    <p class="product-price">₹2,350</p>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <h3>Moon Collection - Towel Ring</h3>
+                    <div class="product-code">SKU: PBA-701</div>
+                    <p class="product-desc">Elegant moon design ring</p>
+                    <div class="product-price">₹2,900</div>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changeQty('PBA-701', -1)">-</button>
+                        <input type="number" id="qty-PBA-701" class="qty-input" value="1" min="1" max="999">
+                        <button class="qty-btn" onclick="changeQty('PBA-701', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('PBA-701', 'Moon Collection - Towel Ring', 2900)">Add to Cart</button>
                 </div>
             </div>
 
             <div class="product-card" data-category="bathroom-accessories">
                 <div class="product-image">🚿</div>
                 <div class="product-info">
-                    <h3>Moon Collection - Basin Mixer</h3>
-                    <p class="product-code">SKU: PBA-701</p>
-                    <p class="product-desc">Single lever basin mixer</p>
-                    <p class="product-price">₹7,500</p>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <h3>Moon Collection - Soap Dish</h3>
+                    <div class="product-code">SKU: PBA-702</div>
+                    <p class="product-desc">Designer moon soap dish</p>
+                    <div class="product-price">₹2,650</div>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changeQty('PBA-702', -1)">-</button>
+                        <input type="number" id="qty-PBA-702" class="qty-input" value="1" min="1" max="999">
+                        <button class="qty-btn" onclick="changeQty('PBA-702', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('PBA-702', 'Moon Collection - Soap Dish', 2650)">Add to Cart</button>
                 </div>
             </div>
 
             <div class="product-card" data-category="bathroom-accessories">
                 <div class="product-image">🚿</div>
                 <div class="product-info">
-                    <h3>Moon Collection - Divertor</h3>
-                    <p class="product-code">SKU: PBA-702</p>
-                    <p class="product-desc">3-way divertor chrome</p>
-                    <p class="product-price">₹6,200</p>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <h3>Royal Collection - Towel Bar 24"</h3>
+                    <div class="product-code">SKU: PBA-801</div>
+                    <p class="product-desc">Premium royal towel bar</p>
+                    <div class="product-price">₹4,200</div>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changeQty('PBA-801', -1)">-</button>
+                        <input type="number" id="qty-PBA-801" class="qty-input" value="1" min="1" max="999">
+                        <button class="qty-btn" onclick="changeQty('PBA-801', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('PBA-801', 'Royal Collection - Towel Bar 24\"', 4200)">Add to Cart</button>
                 </div>
             </div>
 
             <div class="product-card" data-category="bathroom-accessories">
                 <div class="product-image">🚿</div>
                 <div class="product-info">
-                    <h3>Royal Collection - Towel Rod 24"</h3>
-                    <p class="product-code">SKU: PBA-801</p>
-                    <p class="product-desc">Premium quality towel rod</p>
-                    <p class="product-price">₹3,950</p>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <h3>Royal Collection - Robe Hook</h3>
+                    <div class="product-code">SKU: PBA-802</div>
+                    <p class="product-desc">Royal design double robe hook</p>
+                    <div class="product-price">₹2,350</div>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changeQty('PBA-802', -1)">-</button>
+                        <input type="number" id="qty-PBA-802" class="qty-input" value="1" min="1" max="999">
+                        <button class="qty-btn" onclick="changeQty('PBA-802', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('PBA-802', 'Royal Collection - Robe Hook', 2350)">Add to Cart</button>
                 </div>
             </div>
 
             <div class="product-card" data-category="bathroom-accessories">
                 <div class="product-image">🚿</div>
                 <div class="product-info">
-                    <h3>Royal Collection - Soap Dish Brass</h3>
-                    <p class="product-code">SKU: PBA-802</p>
-                    <p class="product-desc">Brass construction soap dish</p>
-                    <p class="product-price">₹3,250</p>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <h3>Square Collection - Towel Rod</h3>
+                    <div class="product-code">SKU: PBA-901</div>
+                    <p class="product-desc">Modern square design rod</p>
+                    <div class="product-price">₹3,500</div>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changeQty('PBA-901', -1)">-</button>
+                        <input type="number" id="qty-PBA-901" class="qty-input" value="1" min="1" max="999">
+                        <button class="qty-btn" onclick="changeQty('PBA-901', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('PBA-901', 'Square Collection - Towel Rod', 3500)">Add to Cart</button>
                 </div>
             </div>
 
             <div class="product-card" data-category="bathroom-accessories">
                 <div class="product-image">🚿</div>
                 <div class="product-info">
-                    <h3>Square Collection - Towel Ring</h3>
-                    <p class="product-code">SKU: PBA-901</p>
-                    <p class="product-desc">Square design towel ring</p>
-                    <p class="product-price">₹2,850</p>
-                    <button class="add-to-cart">Add to Cart</button>
-                </div>
-            </div>
-
-            <div class="product-card" data-category="bathroom-accessories">
-                <div class="product-image">🚿</div>
-                <div class="product-info">
-                    <h3>Square Collection - Robe Hook</h3>
-                    <p class="product-code">SKU: PBA-902</p>
-                    <p class="product-desc">Square style robe hook</p>
-                    <p class="product-price">₹2,450</p>
-                    <button class="add-to-cart">Add to Cart</button>
-                </div>
-            </div>
-
-            <div class="product-card" data-category="bathroom-accessories">
-                <div class="product-image">🚿</div>
-                <div class="product-info">
-                    <h3>Star Collection - Paper Holder</h3>
-                    <p class="product-code">SKU: PBA-1001</p>
-                    <p class="product-desc">Designer paper holder chrome</p>
-                    <p class="product-price">₹2,750</p>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <h3>Square Collection - Paper Holder</h3>
+                    <div class="product-code">SKU: PBA-902</div>
+                    <p class="product-desc">Square design paper holder</p>
+                    <div class="product-price">₹2,500</div>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changeQty('PBA-902', -1)">-</button>
+                        <input type="number" id="qty-PBA-902" class="qty-input" value="1" min="1" max="999">
+                        <button class="qty-btn" onclick="changeQty('PBA-902', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('PBA-902', 'Square Collection - Paper Holder', 2500)">Add to Cart</button>
                 </div>
             </div>
 
@@ -400,38 +571,218 @@
                 <div class="product-image">🚿</div>
                 <div class="product-info">
                     <h3>Star Collection - Towel Rail</h3>
-                    <p class="product-code">SKU: PBA-1002</p>
-                    <p class="product-desc">Double towel rail chrome</p>
-                    <p class="product-price">₹4,150</p>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <div class="product-code">SKU: PBA-1001</div>
+                    <p class="product-desc">Star design premium towel rail</p>
+                    <div class="product-price">₹3,800</div>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changeQty('PBA-1001', -1)">-</button>
+                        <input type="number" id="qty-PBA-1001" class="qty-input" value="1" min="1" max="999">
+                        <button class="qty-btn" onclick="changeQty('PBA-1001', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('PBA-1001', 'Star Collection - Towel Rail', 3800)">Add to Cart</button>
                 </div>
             </div>
+
+            <div class="product-card" data-category="bathroom-accessories">
+                <div class="product-image">🚿</div>
+                <div class="product-info">
+                    <h3>Star Collection - Tumbler</h3>
+                    <div class="product-code">SKU: PBA-1002</div>
+                    <p class="product-desc">Star design glass tumbler</p>
+                    <div class="product-price">₹2,550</div>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changeQty('PBA-1002', -1)">-</button>
+                        <input type="number" id="qty-PBA-1002" class="qty-input" value="1" min="1" max="999">
+                        <button class="qty-btn" onclick="changeQty('PBA-1002', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('PBA-1002', 'Star Collection - Tumbler', 2550)">Add to Cart</button>
+                </div>
+            </div>
+
         </div>
     </div>
 
-    <div class="cart-summary">
-        <h3>🛒 Cart Summary</h3>
-        <p>Items: <span id="cart-count">0</span></p>
-        <p style="margin-top: 1rem; font-weight: bold;">Total: ₹<span id="cart-total">0.00</span></p>
-        <button style="width: 100%; padding: 1rem; background: #28a745; color: white; border: none; border-radius: 5px; margin-top: 1rem; cursor: pointer; font-weight: bold;">Checkout</button>
+    <!-- Cart Summary Widget -->
+    <div class="cart-summary" id="cartSummary">
+        <h3>Cart Summary<span class="cart-badge" id="cartBadge">0</span></h3>
+        <div class="cart-items" id="cartItemsList">
+            <div class="empty-cart">Your cart is empty</div>
+        </div>
+        <div class="cart-total" id="cartTotal" style="display:none;">
+            <span>Total:</span>
+            <span id="totalAmount">₹0</span>
+        </div>
+        <button class="checkout-btn" id="checkoutBtn" style="display:none;" onclick="checkout()">Place Order</button>
+    </div>
+
+    <!-- Order Confirmation Modal -->
+    <div class="modal" id="orderModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Order Confirmation</h2>
+                <button class="close-modal" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="success-icon">✅</div>
+            <div class="modal-message" id="modalMessage">Your order has been placed successfully!</div>
+            <button class="modal-btn" onclick="closeModal()">Continue Shopping</button>
+        </div>
     </div>
 
     <script>
+        // Cart data structure
+        let cart = [];
+
+        // Category filter function
         function filterProducts(category) {
             const cards = document.querySelectorAll('.product-card');
             const buttons = document.querySelectorAll('.filter-btn');
             
+            // Update active button
             buttons.forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
             
+            // Filter products
             cards.forEach(card => {
-                if (category === 'all' || card.getAttribute('data-category') === category) {
+                if (category === 'all') {
                     card.style.display = 'block';
                 } else {
-                    card.style.display = 'none';
+                    if (card.getAttribute('data-category') === category) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
                 }
             });
         }
+
+        // Change quantity
+        function changeQty(sku, change) {
+            const input = document.getElementById('qty-' + sku);
+            let currentValue = parseInt(input.value);
+            let newValue = currentValue + change;
+            
+            if (newValue >= 1 && newValue <= 999) {
+                input.value = newValue;
+            }
+        }
+
+        // Add to cart function
+        function addToCart(sku, name, price) {
+            const qtyInput = document.getElementById('qty-' + sku);
+            const quantity = parseInt(qtyInput.value);
+            
+            // Check if product already exists in cart
+            const existingIndex = cart.findIndex(item => item.sku === sku);
+            
+            if (existingIndex >= 0) {
+                // Update quantity
+                cart[existingIndex].quantity += quantity;
+            } else {
+                // Add new item
+                cart.push({
+                    sku: sku,
+                    name: name,
+                    price: price,
+                    quantity: quantity
+                });
+            }
+            
+            // Reset quantity input
+            qtyInput.value = 1;
+            
+            // Update cart display
+            updateCartDisplay();
+        }
+
+        // Remove from cart
+        function removeFromCart(sku) {
+            cart = cart.filter(item => item.sku !== sku);
+            updateCartDisplay();
+        }
+
+        // Update cart display
+        function updateCartDisplay() {
+            const cartItemsList = document.getElementById('cartItemsList');
+            const cartBadge = document.getElementById('cartBadge');
+            const cartTotal = document.getElementById('cartTotal');
+            const checkoutBtn = document.getElementById('checkoutBtn');
+            const totalAmount = document.getElementById('totalAmount');
+            
+            // Update badge
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartBadge.textContent = totalItems;
+            
+            if (cart.length === 0) {
+                cartItemsList.innerHTML = '<div class="empty-cart">Your cart is empty</div>';
+                cartTotal.style.display = 'none';
+                checkoutBtn.style.display = 'none';
+            } else {
+                // Render cart items
+                let itemsHTML = '';
+                let total = 0;
+                
+                cart.forEach(item => {
+                    const itemTotal = item.price * item.quantity;
+                    total += itemTotal;
+                    
+                    itemsHTML += `
+                        <div class="cart-item">
+                            <div class="cart-item-info">
+                                <div class="cart-item-name">${item.name}</div>
+                                <div class="cart-item-price">₹${item.price.toLocaleString('en-IN')}</div>
+                                <div class="cart-item-qty">Qty: ${item.quantity} = ₹${itemTotal.toLocaleString('en-IN')}</div>
+                            </div>
+                            <button class="remove-item" onclick="removeFromCart('${item.sku}')">Remove</button>
+                        </div>
+                    `;
+                });
+                
+                cartItemsList.innerHTML = itemsHTML;
+                totalAmount.textContent = '₹' + total.toLocaleString('en-IN');
+                cartTotal.style.display = 'flex';
+                checkoutBtn.style.display = 'block';
+            }
+        }
+
+        // Checkout function
+        function checkout() {
+            if (cart.length === 0) return;
+            
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            const modalMessage = document.getElementById('modalMessage');
+            modalMessage.innerHTML = `
+                <strong>Order Summary</strong><br><br>
+                Total Items: ${totalItems}<br>
+                Total Amount: ₹${totalAmount.toLocaleString('en-IN')}<br><br>
+                Your order has been placed successfully!<br>
+                <small>A confirmation email will be sent shortly.</small>
+            `;
+            
+            // Show modal
+            document.getElementById('orderModal').classList.add('active');
+            
+            // Clear cart
+            cart = [];
+            updateCartDisplay();
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('orderModal').classList.remove('active');
+        }
+
+        // Close modal on outside click
+        window.onclick = function(event) {
+            const modal = document.getElementById('orderModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Initialize cart display
+        updateCartDisplay();
     </script>
 </body>
 </html>

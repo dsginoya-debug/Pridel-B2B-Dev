@@ -29,6 +29,12 @@
         .qty-btn { width: 35px; height: 35px; border: none; background: #f0f0f0; border-radius: 5px; cursor: pointer; font-size: 1.1rem; font-weight: bold; transition: all 0.3s; }
         .qty-btn:hover { background: #667eea; color: white; }
         .qty-input { width: 60px; text-align: center; border: 2px solid #e0e0e0; border-radius: 5px; padding: 0.5rem; font-size: 1rem; }
+                .variant-selector { margin: 1rem 0; padding: 1rem; background: #f9f9f9; border-radius: 8px; }
+        .variant-group { margin-bottom: 0.8rem; }
+        .variant-group label { display: block; margin-bottom: 0.3rem; font-weight: 500; color: #333; font-size: 0.9rem; }
+        .variant-select { width: 100%; padding: 0.6rem; border: 2px solid #e0e0e0; border-radius: 5px; font-size: 0.95rem; background: white; cursor: pointer; transition: all 0.3s; }
+        .variant-select:hover { border-color: #667eea; }
+        .variant-select:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); }
         .add-to-cart { width: 100%; padding: 0.8rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: opacity 0.3s; }
         .add-to-cart:hover { opacity: 0.9; }
         .cart-summary { position: fixed; bottom: 20px; right: 20px; background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); min-width: 280px; max-width: 350px; z-index: 1000; }
@@ -92,11 +98,32 @@
                     <h3>Square Floor Drain Premium</h3>
                     <div class="product-code">SKU: PFD-001</div>
                     <p class="product-desc">Stainless steel square floor drain</p>
-                    <div class="product-price">₹3,750</div>
+                    <div class="product-price id="PFD-001-price"">₹3,750</div>
                     <div class="quantity-selector">
                         <button class="qty-btn" onclick="changeQty('PFD-001', -1)">-</button>
                         <input type="number" id="qty-PFD-001" class="qty-input" value="1" min="1" max="999">
                         <button class="qty-btn" onclick="changeQty('PFD-001', 1)">+</button>
+                                        <div class="variant-selector">
+                    <div class="variant-group">
+                        <label>Size:</label>
+                        <select id="size-PFD-001" class="variant-select" onchange="updatePrice('PFD-001')">
+                            <option value="150x150-304">150×150mm - SS 304</option>
+                            <option value="150x150-202">150×150mm - SS 202</option>
+                            <option value="127x127-304">127×127mm - SS 304</option>
+                            <option value="127x127-202">127×127mm - SS 202</option>
+                        </select>
+                    </div>
+                    <div class="variant-group">
+                        <label>Finish:</label>
+                        <select id="finish-PFD-001" class="variant-select" onchange="updatePrice('PFD-001')">
+                            <option value="elite">Elite</option>
+                            <option value="ultra">Ultra Premium</option>
+                            <option value="gold">Gold Glossy</option>
+                            <option value="black">Satin Black PVD</option>
+                            <option value="rose">Rose Gold PVD</option>
+                        </select>
+                    </div>
+                </div>
                     </div>
                     <button class="add-to-cart" onclick="addToCart('PFD-001', 'Square Floor Drain Premium', 3750)">Add to Cart</button>
                 </div>
@@ -632,7 +659,34 @@
         // Cart data structure
         let cart = [];
 
-        // Category filter function
+        // C
+                // Product variant pricing data
+        const productVariants = {
+            'PFD-001': {
+                '150x150-304': { elite: 3750, ultra: 3550, gold: 4725, black: 7800, rose: 7800 },
+                '150x150-202': { elite: 3450, ultra: 3250, gold: 4350, black: 7150, rose: 7150 },
+                '127x127-304': { elite: 2850, ultra: 2700, gold: 3600, black: 5950, rose: 5950 },
+                '127x127-202': { elite: 2650, ultra: 2500, gold: 3350, black: 5500, rose: 5500 }
+            }
+        };
+
+        // Update price based on variant selection
+        function updatePrice(productId) {
+            const sizeSelect = document.getElementById('size-' + productId);
+            const finishSelect = document.getElementById('finish-' + productId);
+            const priceDiv = document.querySelector(`#${productId}-price`);
+            
+            if (!sizeSelect || !finishSelect || !priceDiv) return;
+            
+            const sizeValue = sizeSelect.value;
+            const finishValue = finishSelect.value;
+            
+            if (productVariants[productId] && productVariants[productId][sizeValue]) {
+                const price = productVariants[productId][sizeValue][finishValue];
+                priceDiv.textContent = '₹' + price.toLocaleString('en-IN');
+            }
+        }
+ategory filter function
         function filterProducts(category) {
             const cards = document.querySelectorAll('.product-card');
             const buttons = document.querySelectorAll('.filter-btn');

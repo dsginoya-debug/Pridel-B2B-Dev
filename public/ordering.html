@@ -6,12 +6,16 @@
     <title>B2B Ordering - Pridel Industries</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', sans-serif; background: #f5f5f5; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; }
         header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1.5rem 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         .header-content { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; }
         nav a { color: white; text-decoration: none; margin-left: 2rem; transition: opacity 0.3s; }
         nav a:hover { opacity: 0.8; }
         .container { max-width: 1200px; margin: 2rem auto; padding: 0 2rem; }
+        .category-filter { background: white; padding: 1rem; border-radius: 10px; margin-bottom: 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; gap: 1rem; flex-wrap: wrap; }
+        .filter-btn { padding: 0.8rem 1.5rem; border: none; background: #f0f0f0; border-radius: 5px; cursor: pointer; font-weight: 500; transition: all 0.3s; }
+        .filter-btn:hover { background: #667eea; color: white; }
+        .filter-btn.active { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
         .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem; }
         .product-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s; }
         .product-card:hover { transform: translateY(-5px); }
@@ -19,16 +23,17 @@
         .product-info { padding: 1.5rem; }
         .product-info h3 { margin-bottom: 0.5rem; }
         .product-code { color: #666; font-size: 0.9rem; }
+        .product-desc { color: #666; font-size: 0.9rem; margin: 0.5rem 0; }
         .product-price { color: #667eea; font-size: 1.3rem; font-weight: bold; margin: 1rem 0; }
-        .add-to-cart { width: 100%; padding: 0.8rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .add-to-cart { width: 100%; padding: 0.8rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: opacity 0.3s; }
         .add-to-cart:hover { opacity: 0.9; }
-        .cart-summary { position: fixed; bottom: 20px; right: 20px; background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); min-width: 300px; }
+        .cart-summary { position: fixed; bottom: 20px; right: 20px; background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
     </style>
 </head>
 <body>
     <header>
         <div class="header-content">
-            <h1>🛍️ B2B Ordering Portal</h1>
+            <h1>🛒 B2B Ordering Portal</h1>
             <nav>
                 <a href="index.html">Home</a>
                 <a href="ordering.html">Order</a>
@@ -37,76 +42,396 @@
             </nav>
         </div>
     </header>
+
     <div class="container">
-        <h2 style="margin-bottom: 2rem; color: #667eea;">Pridel Products Catalog</h2>
-        <div class="products-grid">
-            <div class="product-card">
+        <h2 style="color: #667eea; margin-bottom: 2rem;">Pridel Products Catalog</h2>
+        
+        <div class="category-filter">
+            <button class="filter-btn active" onclick="filterProducts('all')">All Products</button>
+            <button class="filter-btn" onclick="filterProducts('floor-drains')">Floor Drains</button>
+            <button class="filter-btn" onclick="filterProducts('bathroom-accessories')">Bathroom Accessories</button>
+        </div>
+
+        <div class="products-grid" id="productsGrid">
+            <!-- Floor Drains -->
+            <div class="product-card" data-category="floor-drains">
                 <div class="product-image">🚿</div>
                 <div class="product-info">
                     <h3>Square Floor Drain Premium</h3>
                     <p class="product-code">SKU: PFD-001</p>
-                    <p>Stainless steel square floor drain</p>
-                    <p class="product-price">£45.00</p>
+                    <p class="product-desc">Stainless steel square floor drain</p>
+                    <p class="product-price">₹3,750</p>
                     <button class="add-to-cart">Add to Cart</button>
                 </div>
             </div>
-            <div class="product-card">
+
+            <div class="product-card" data-category="floor-drains">
                 <div class="product-image">🚿</div>
                 <div class="product-info">
-                    <h3>Linear Floor Drain</h3>
+                    <h3>Cockroach Trap Auto Close</h3>
                     <p class="product-code">SKU: PFD-002</p>
-                    <p>Modern linear design</p>
-                    <p class="product-price">£65.00</p>
+                    <p class="product-desc">Auto-close mechanism cockroach trap</p>
+                    <p class="product-price">₹4,200</p>
                     <button class="add-to-cart">Add to Cart</button>
                 </div>
             </div>
-            <div class="product-card">
-                <div class="product-image">🧼</div>
+
+            <div class="product-card" data-category="floor-drains">
+                <div class="product-image">🚿</div>
                 <div class="product-info">
-                    <h3>Soap Dispenser Chrome</h3>
+                    <h3>Cockroach Trap Double Bowl</h3>
+                    <p class="product-code">SKU: PFD-003</p>
+                    <p class="product-desc">Double bowl cockroach trap design</p>
+                    <p class="product-price">₹4,500</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="floor-drains">
+                <div class="product-image">🚿</div>
+                <div class="product-info">
+                    <h3>Flat Cut Floor Drain</h3>
+                    <p class="product-code">SKU: PFD-004</p>
+                    <p class="product-desc">Modern flat cut design</p>
+                    <p class="product-price">₹3,950</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="floor-drains">
+                <div class="product-image">🚿</div>
+                <div class="product-info">
+                    <h3>Flat Cut Cockroach Trap</h3>
+                    <p class="product-code">SKU: PFD-005</p>
+                    <p class="product-desc">Flat design with trap mechanism</p>
+                    <p class="product-price">₹4,100</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="floor-drains">
+                <div class="product-image">🚿</div>
+                <div class="product-info">
+                    <h3>Locking Drain Square</h3>
+                    <p class="product-code">SKU: PFD-006</p>
+                    <p class="product-desc">Square locking mechanism drain</p>
+                    <p class="product-price">₹4,350</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="floor-drains">
+                <div class="product-image">🚿</div>
+                <div class="product-info">
+                    <h3>Locking Drain Round</h3>
+                    <p class="product-code">SKU: PFD-007</p>
+                    <p class="product-desc">Round locking mechanism drain</p>
+                    <p class="product-price">₹4,300</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="floor-drains">
+                <div class="product-image">🚿</div>
+                <div class="product-info">
+                    <h3>Fix Drain & Cockroach Bowl</h3>
+                    <p class="product-code">SKU: PFD-008</p>
+                    <p class="product-desc">Fixed drain with roach protection</p>
+                    <p class="product-price">₹4,600</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="floor-drains">
+                <div class="product-image">🚿</div>
+                <div class="product-info">
+                    <h3>Tiles Insert Drain</h3>
+                    <p class="product-code">SKU: PFD-009</p>
+                    <p class="product-desc">Tile insert invisible drain</p>
+                    <p class="product-price">₹5,200</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="floor-drains">
+                <div class="product-image">🚿</div>
+                <div class="product-info">
+                    <h3>Shower Channel Drain</h3>
+                    <p class="product-code">SKU: PFD-010</p>
+                    <p class="product-desc">Linear channel shower drain</p>
+                    <p class="product-price">₹6,500</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="floor-drains">
+                <div class="product-image">🚿</div>
+                <div class="product-info">
+                    <h3>Shower & Shower Arm</h3>
+                    <p class="product-code">SKU: PFD-011</p>
+                    <p class="product-desc">Complete shower system</p>
+                    <p class="product-price">₹8,500</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="floor-drains">
+                <div class="product-image">🚿</div>
+                <div class="product-info">
+                    <h3>Rack Bolt</h3>
+                    <p class="product-code">SKU: PFD-012</p>
+                    <p class="product-desc">Heavy duty rack bolt system</p>
+                    <p class="product-price">₹3,200</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Bathroom Accessories -->
+            <div class="product-card" data-category="bathroom-accessories">
+                <div class="product-image">🚿</div>
+                <div class="product-info">
+                    <h3>Angel Collection - Soap Dish</h3>
                     <p class="product-code">SKU: PBA-101</p>
-                    <p>Wall-mounted dispenser</p>
-                    <p class="product-price">£35.00</p>
+                    <p class="product-desc">Premium chrome soap dish</p>
+                    <p class="product-price">₹2,950</p>
                     <button class="add-to-cart">Add to Cart</button>
                 </div>
             </div>
-            <div class="product-card">
-                <div class="product-image">🪞</div>
+
+            <div class="product-card" data-category="bathroom-accessories">
+                <div class="product-image">🚿</div>
                 <div class="product-info">
-                    <h3>LED Bathroom Mirror</h3>
+                    <h3>Angel Collection - Towel Rod</h3>
                     <p class="product-code">SKU: PBA-102</p>
-                    <p>Backlit LED mirror</p>
-                    <p class="product-price">£120.00</p>
+                    <p class="product-desc">24" stainless steel towel rod</p>
+                    <p class="product-price">₹3,450</p>
                     <button class="add-to-cart">Add to Cart</button>
                 </div>
             </div>
-            <div class="product-card">
-                <div class="product-image">🚰</div>
+
+            <div class="product-card" data-category="bathroom-accessories">
+                <div class="product-image">🚿</div>
                 <div class="product-info">
-                    <h3>Basin Mixer Tap</h3>
-                    <p class="product-code">SKU: PFT-201</p>
-                    <p>Single lever basin mixer</p>
-                    <p class="product-price">£55.00</p>
+                    <h3>Aura Collection - Towel Ring</h3>
+                    <p class="product-code">SKU: PBA-201</p>
+                    <p class="product-desc">Modern design towel ring</p>
+                    <p class="product-price">₹2,750</p>
                     <button class="add-to-cart">Add to Cart</button>
                 </div>
             </div>
-            <div class="product-card">
-                <div class="product-image">🚰</div>
+
+            <div class="product-card" data-category="bathroom-accessories">
+                <div class="product-image">🚿</div>
                 <div class="product-info">
-                    <h3>Kitchen Mixer Tap</h3>
-                    <p class="product-code">SKU: PFT-202</p>
-                    <p>Pull-out kitchen mixer</p>
-                    <p class="product-price">£85.00</p>
+                    <h3>Aura Collection - Paper Holder</h3>
+                    <p class="product-code">SKU: PBA-202</p>
+                    <p class="product-desc">Wall mounted paper holder</p>
+                    <p class="product-price">₹2,500</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="bathroom-accessories">
+                <div class="product-image">🚿</div>
+                <div class="product-info">
+                    <h3>Crystal Collection - Robe Hook</h3>
+                    <p class="product-code">SKU: PBA-301</p>
+                    <p class="product-desc">Double robe hook chrome</p>
+                    <p class="product-price">₹2,200</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="bathroom-accessories">
+                <div class="product-image">🚿</div>
+                <div class="product-info">
+                    <h3>Crystal Collection - Soap Dispenser</h3>
+                    <p class="product-code">SKU: PBA-302</p>
+                    <p class="product-desc">Wall mounted soap dispenser</p>
+                    <p class="product-price">₹3,850</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="bathroom-accessories">
+                <div class="product-image">🚿</div>
+                <div class="product-info">
+                    <h3>Elista Collection - Towel Rack</h3>
+                    <p class="product-code">SKU: PBA-401</p>
+                    <p class="product-desc">Multi-tier towel rack</p>
+                    <p class="product-price">₹4,500</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="bathroom-accessories">
+                <div class="product-image">🚿</div>
+                <div class="product-info">
+                    <h3>Elista Collection - Shelf Glass</h3>
+                    <p class="product-code">SKU: PBA-402</p>
+                    <p class="product-desc">Tempered glass shelf</p>
+                    <p class="product-price">₹5,200</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="bathroom-accessories">
+                <div class="product-image">🚿</div>
+                <div class="product-info">
+                    <h3>Ocean Collection - Tumbler Holder</h3>
+                    <p class="product-code">SKU: PBA-501</p>
+                    <p class="product-desc">Chrome tumbler holder</p>
+                    <p class="product-price">₹2,650</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="bathroom-accessories">
+                <div class="product-image">🚿</div>
+                <div class="product-info">
+                    <h3>Ocean Collection - Towel Shelf</h3>
+                    <p class="product-code">SKU: PBA-502</p>
+                    <p class="product-desc">Chrome towel shelf with bar</p>
+                    <p class="product-price">₹4,800</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="bathroom-accessories">
+                <div class="product-image">🚿</div>
+                <div class="product-info">
+                    <h3>Liva Collection - Soap Holder</h3>
+                    <p class="product-code">SKU: PBA-601</p>
+                    <p class="product-desc">Contemporary soap holder</p>
+                    <p class="product-price">₹2,450</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="bathroom-accessories">
+                <div class="product-image">🚿</div>
+                <div class="product-info">
+                    <h3>Liva Collection - Napkin Ring</h3>
+                    <p class="product-code">SKU: PBA-602</p>
+                    <p class="product-desc">Modern napkin ring chrome</p>
+                    <p class="product-price">₹2,350</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="bathroom-accessories">
+                <div class="product-image">🚿</div>
+                <div class="product-info">
+                    <h3>Moon Collection - Basin Mixer</h3>
+                    <p class="product-code">SKU: PBA-701</p>
+                    <p class="product-desc">Single lever basin mixer</p>
+                    <p class="product-price">₹7,500</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="bathroom-accessories">
+                <div class="product-image">🚿</div>
+                <div class="product-info">
+                    <h3>Moon Collection - Divertor</h3>
+                    <p class="product-code">SKU: PBA-702</p>
+                    <p class="product-desc">3-way divertor chrome</p>
+                    <p class="product-price">₹6,200</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="bathroom-accessories">
+                <div class="product-image">🚿</div>
+                <div class="product-info">
+                    <h3>Royal Collection - Towel Rod 24"</h3>
+                    <p class="product-code">SKU: PBA-801</p>
+                    <p class="product-desc">Premium quality towel rod</p>
+                    <p class="product-price">₹3,950</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="bathroom-accessories">
+                <div class="product-image">🚿</div>
+                <div class="product-info">
+                    <h3>Royal Collection - Soap Dish Brass</h3>
+                    <p class="product-code">SKU: PBA-802</p>
+                    <p class="product-desc">Brass construction soap dish</p>
+                    <p class="product-price">₹3,250</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="bathroom-accessories">
+                <div class="product-image">🚿</div>
+                <div class="product-info">
+                    <h3>Square Collection - Towel Ring</h3>
+                    <p class="product-code">SKU: PBA-901</p>
+                    <p class="product-desc">Square design towel ring</p>
+                    <p class="product-price">₹2,850</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="bathroom-accessories">
+                <div class="product-image">🚿</div>
+                <div class="product-info">
+                    <h3>Square Collection - Robe Hook</h3>
+                    <p class="product-code">SKU: PBA-902</p>
+                    <p class="product-desc">Square style robe hook</p>
+                    <p class="product-price">₹2,450</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="bathroom-accessories">
+                <div class="product-image">🚿</div>
+                <div class="product-info">
+                    <h3>Star Collection - Paper Holder</h3>
+                    <p class="product-code">SKU: PBA-1001</p>
+                    <p class="product-desc">Designer paper holder chrome</p>
+                    <p class="product-price">₹2,750</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-category="bathroom-accessories">
+                <div class="product-image">🚿</div>
+                <div class="product-info">
+                    <h3>Star Collection - Towel Rail</h3>
+                    <p class="product-code">SKU: PBA-1002</p>
+                    <p class="product-desc">Double towel rail chrome</p>
+                    <p class="product-price">₹4,150</p>
                     <button class="add-to-cart">Add to Cart</button>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="cart-summary">
         <h3>🛒 Cart Summary</h3>
         <p>Items: <span id="cart-count">0</span></p>
-        <p style="margin-top: 1rem; font-weight: bold;">Total: £<span id="cart-total">0.00</span></p>
-        <button style="width: 100%; padding: 1rem; background: #28a745; color: white; border: none; border-radius: 5px; margin-top: 1rem; cursor: pointer;">Checkout</button>
+        <p style="margin-top: 1rem; font-weight: bold;">Total: ₹<span id="cart-total">0.00</span></p>
+        <button style="width: 100%; padding: 1rem; background: #28a745; color: white; border: none; border-radius: 5px; margin-top: 1rem; cursor: pointer; font-weight: bold;">Checkout</button>
     </div>
+
+    <script>
+        function filterProducts(category) {
+            const cards = document.querySelectorAll('.product-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
 </body>
 </html>

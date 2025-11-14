@@ -125,11 +125,11 @@
                     </div>
                 </div>
                     </div>
-                    <button class="add-to-cart" onclick="addToCart('PFD-001', 'Square Floor Drain Premium', 3750)">Add to Cart</button>
+                    <button class="add-to-cart" onclick="addToCartWithVariant('PFD-001')">Add to Cart</button>
                 </div>
             </div>
 
-            <div class="product-card" data-category="floor-drain">
+                            <button class="add-to-cart" onclick="addToCartWithVariant('PFD-001')">Add to Cart</button>
                 <div class="product-image">🚿</div>
                 <div class="product-info">
                     <h3>Cockroach Trap Auto Close</h3>
@@ -705,6 +705,21 @@
                 updatePrice('PFD-001');
             }
         });
+
+                // Add to cart with current variant selection
+        function addToCartWithVariant(productId) {
+            const productName = 'Square Floor Drain Premium';
+            const priceDiv = document.getElementById(productId + '-price');
+            const qtyInput = document.querySelector(`#${productId}-qty`);
+            
+            if (!priceDiv || !qtyInput) return;
+            
+            const priceText = priceDiv.textContent.replace('₹', '').replace(',', '');
+            const price = parseInt(priceText);
+            const quantity = parseInt(qtyInput.value) || 1;
+            
+            addToCart(productId, productName, price, quantity);
+        }
 ategory filter function
         function filterProducts(category) {
             const cards = document.querySelectorAll('.product-card');

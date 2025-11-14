@@ -674,7 +674,7 @@
         function updatePrice(productId) {
             const sizeSelect = document.getElementById('size-' + productId);
             const finishSelect = document.getElementById('finish-' + productId);
-            const priceDiv = document.querySelector(`#${productId}-price`);
+                        const priceDiv = document.getElementById(productId + '-price');
             
             if (!sizeSelect || !finishSelect || !priceDiv) return;
             

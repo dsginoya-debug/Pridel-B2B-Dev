@@ -686,6 +686,25 @@
                 priceDiv.textContent = '₹' + price.toLocaleString('en-IN');
             }
         }
+
+                // Initialize variant selectors with event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set up event listeners for PFD-001
+            const sizeSelect = document.getElementById('size-PFD-001');
+            const finishSelect = document.getElementById('finish-PFD-001');
+            
+            if (sizeSelect && finishSelect) {
+                sizeSelect.addEventListener('change', function() {
+                    updatePrice('PFD-001');
+                });
+                finishSelect.addEventListener('change', function() {
+                    updatePrice('PFD-001');
+                });
+                
+                // Initialize price on page load
+                updatePrice('PFD-001');
+            }
+        });
 ategory filter function
         function filterProducts(category) {
             const cards = document.querySelectorAll('.product-card');

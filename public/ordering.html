@@ -710,8 +710,7 @@
         function addToCartWithVariant(productId) {
             const productName = 'Square Floor Drain Premium';
             const priceDiv = document.getElementById(productId + '-price');
-            const qtyInput = document.querySelector(`#${productId}-qty`);
-            
+            const qtyInput = document.querySelector(`#qty-${productId}`);            
             if (!priceDiv || !qtyInput) return;
             
             const priceText = priceDiv.textContent.replace('₹', '').replace(',', '');

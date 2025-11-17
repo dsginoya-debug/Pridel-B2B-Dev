@@ -7,7 +7,7 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; }
-        header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1.5rem 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        header { background: white; color: white; padding: 1.5rem 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         .header-content { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; }
         nav a { color: white; text-decoration: none; margin-left: 2rem; transition: opacity 0.3s; }
         nav a:hover { opacity: 0.8; }
@@ -15,11 +15,11 @@
         .category-filter { background: white; padding: 1rem; border-radius: 10px; margin-bottom: 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; gap: 1rem; flex-wrap: wrap; }
         .filter-btn { padding: 0.8rem 1.5rem; border: none; background: #f0f0f0; border-radius: 5px; cursor: pointer; font-weight: 500; transition: all 0.3s; }
         .filter-btn:hover { background: #667eea; color: white; }
-        .filter-btn.active { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .filter-btn.active { background: white; color: white; }
         .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem; }
         .product-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s; }
         .product-card:hover { transform: translateY(-5px); }
-        .product-image { width: 100%; height: 200px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+        .product-image { width: 100%; height: 200px; background: white; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
         .product-info { padding: 1.5rem; }
         .product-info h3 { margin-bottom: 0.5rem; }
         .product-code { color: #666; font-size: 0.9rem; }
@@ -35,7 +35,7 @@
         .variant-select { width: 100%; padding: 0.6rem; border: 2px solid #e0e0e0; border-radius: 5px; font-size: 0.95rem; background: white; cursor: pointer; transition: all 0.3s; }
         .variant-select:hover { border-color: #667eea; }
         .variant-select:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); }
-        .add-to-cart { width: 100%; padding: 0.8rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: opacity 0.3s; }
+        .add-to-cart { width: 100%; padding: 0.8rem; background: white; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: opacity 0.3s; }
         .add-to-cart:hover { opacity: 0.9; }
         .cart-summary { position: fixed; bottom: 20px; right: 20px; background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); min-width: 280px; max-width: 350px; z-index: 1000; }
         .cart-summary h3 { margin-bottom: 1rem; color: #333; }
@@ -48,7 +48,7 @@
         .remove-item { background: #ff4444; color: white; border: none; padding: 0.3rem 0.6rem; border-radius: 3px; cursor: pointer; font-size: 0.8rem; }
         .remove-item:hover { background: #cc0000; }
         .cart-total { border-top: 2px solid #e0e0e0; padding-top: 1rem; margin-top: 1rem; display: flex; justify-content: space-between; font-weight: bold; font-size: 1.1rem; }
-        .checkout-btn { width: 100%; padding: 1rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 1rem; transition: opacity 0.3s; }
+        .checkout-btn { width: 100%; padding: 1rem; background: white; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 1rem; transition: opacity 0.3s; }
         .checkout-btn:hover { opacity: 0.9; }
         .empty-cart { text-align: center; color: #999; padding: 2rem 0; }
         .cart-badge { background: #ff4444; color: white; border-radius: 50%; padding: 0.2rem 0.5rem; font-size: 0.8rem; margin-left: 0.5rem; }
@@ -63,14 +63,19 @@
         .close-modal:hover { color: #333; }
         .success-icon { text-align: center; font-size: 4rem; margin-bottom: 1rem; }
         .modal-message { text-align: center; color: #666; margin-bottom: 1.5rem; line-height: 1.6; }
-        .modal-btn { width: 100%; padding: 0.8rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .modal-btn { width: 100%; padding: 0.8rem; background: white; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
         .modal-btn:hover { opacity: 0.9; }
     </style>
 </head>
 <body>
     <header>
         <div class="header-content">
-            <h1>🛒 B2B Ordering Portal</h1>
+<div class="logo">
+                    <div>
+                        <div class="logo-text">PRIDEL</div>
+                        <div class="logo-subtitle">BATH ACCESSORIES</div>
+                    </div>
+                </div>
             <nav>
                 <a href="index.html">Home</a>
                 <a href="ordering.html">Order</a>

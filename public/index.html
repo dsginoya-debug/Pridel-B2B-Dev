@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pridel Industries - B2B Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -17,182 +18,606 @@
             color: #333;
         }
 
+        /* Header Styles */
         header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 2rem 0;
-            text-align: center;
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .hero {
-            background: #f8f9fa;
-            padding: 3rem 2rem;
-            border-radius: 10px;
-            margin: 2rem 0;
-            text-align: center;
-        }
-
-        .hero h2 {
-            color: #667eea;
-            margin-bottom: 1rem;
-        }
-
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-
-        .feature-card {
             background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .feature-card h3 {
-            color: #667eea;
-            margin-bottom: 1rem;
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-text {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #00A896;
+            letter-spacing: 2px;
+        }
+
+        .logo-subtitle {
+            font-size: 0.7rem;
+            color: #666;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        nav {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-size: 1rem;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: #00A896;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #00A896;
+            transition: width 0.3s;
+        }
+
+        nav a:hover::after {
+            width: 100%;
         }
 
         .cta-button {
-            display: inline-block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #000;
             color: white;
-            padding: 1rem 2rem;
-            border-radius: 5px;
+            padding: 0.8rem 2rem;
             text-decoration: none;
-            font-weight: bold;
-            margin: 2rem 0;
-            transition: opacity 0.3s ease;
+            border-radius: 0;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
         }
 
         .cta-button:hover {
+            background: #00A896;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 600px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        }
+
+        .hero-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5rem;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+        }
+
+        .hero-content {
+            max-width: 600px;
+            color: white;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .hero-subtitle {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: #00A896;
+            font-style: italic;
+            margin-bottom: 2rem;
+        }
+
+        .hero-image {
+            max-width: 50%;
             opacity: 0.9;
         }
 
-        footer {
-            background: #333;
-            color: white;
-            text-align: center;
-            padding: 2rem 0;
-            margin-top: 4rem;
+        .hero-nav {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            z-index: 3;
         }
 
-        .status-badge {
-            display: inline-block;
-            background: #28a745;
+        .hero-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .hero-dot.active {
+            background: #00A896;
+            width: 40px;
+            border-radius: 6px;
+        }
+
+        .hero-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.2);
             color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 3;
+        }
+
+        .hero-arrow:hover {
+            background: #00A896;
+        }
+
+        .hero-arrow.left {
+            left: 2rem;
+        }
+
+        .hero-arrow.right {
+            right: 2rem;
+        }
+
+        /* About Section */
+        .about-section {
+            max-width: 1400px;
+            margin: 5rem auto;
+            padding: 0 2rem;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            color: #000;
+        }
+
+        .section-description {
+            max-width: 1000px;
+            margin: 0 auto 3rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #666;
+        }
+
+        .black-button {
+            display: inline-block;
+            background: #000;
+            color: white;
+            padding: 1rem 3rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .black-button:hover {
+            background: #00A896;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,168,150,0.3);
+        }
+
+        /* Split Section */
+        .split-section {
+            display: flex;
+            align-items: center;
+            min-height: 600px;
+            background: #f5f5f0;
+        }
+
+        .split-content {
+            flex: 1;
+            padding: 5rem;
+        }
+
+        .split-image {
+            flex: 1;
+            height: 600px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .split-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .split-description {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        /* Collection Section */
+        .collection-section {
+            max-width: 1400px;
+            margin: 5rem auto;
+            padding: 0 2rem;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 0;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 300px;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+        }
+
+        .product-info {
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .product-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .product-code {
+            color: #999;
             font-size: 0.9rem;
-            margin: 1rem 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .product-button {
+            display: inline-block;
+            background: #000;
+            color: white;
+            padding: 0.8rem 2.5rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .product-button:hover {
+            background: #00A896;
+        }
+
+        /* WhatsApp Widget */
+        .whatsapp-widget {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            z-index: 1000;
+        }
+
+        .whatsapp-button {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: #25D366;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(37,211,102,0.4);
+            transition: all 0.3s;
+        }
+
+        .whatsapp-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(37,211,102,0.6);
+        }
+
+        .whatsapp-icon {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .hero {
+                height: 400px;
+            }
+
+            .hero-slide {
+                flex-direction: column;
+                padding: 2rem;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.5rem;
+            }
+
+            .split-section {
+                flex-direction: column;
+            }
+
+            .split-content {
+                padding: 3rem 2rem;
+            }
+
+            .split-image {
+                height: 400px;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
+
+    <!-- Header -->
     <header>
-        <h1>🏢 Pridel Industries</h1>
-        <p>B2B E-Commerce Platform for Bathroom Accessories</p>
-        <div class="status-badge">✓ Platform Active</div>
+        <div class="header-content">
+            <div class="logo">
+                <div>
+                    <div class="logo-text">PRIDEL</div>
+                    <div class="logo-subtitle">BATH ACCESSORIES</div>
+                </div>
+            </div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="#about">About Us</a>
+                <a href="#collection">Our Collection</a>
+                <a href="ordering.html">B2B Portal</a>
+                <a href="dealer.html">Dealer Login</a>
+                <a href="admin.html" class="cta-button">GET IN TOUCH</a>
+            </nav>
+        </div>
     </header>
 
-    <div class="container">
-        <div class="hero">
-            <h2>Welcome to Pridel B2B Portal</h2>
-            <p>Your trusted partner for premium bathroom accessories and floor drains</p>
-        </div>
-
-        <div class="features">
-            <div class="feature-card">
-                <h3>🛁 Premium Products</h3>
-                <p>High-quality bathroom accessories including floor drains, faucets, and fixtures designed for modern spaces.</p>
-            </div>
-
-            <div class="feature-card">
-                <h3>🤝 B2B Ordering</h3>
-                <p>Streamlined ordering system for dealers and distributors with multi-role access and management.</p>
-            </div>
-
-            <div class="feature-card">
-                <h3>📦 Bulk Orders</h3>
-                <p>Competitive pricing for bulk orders. Contact us for custom quotes and partnership opportunities.</p>
-            </div>
-
-            <div class="feature-card">
-                <h3>🚚 Reliable Delivery</h3>
-                <p>Efficient logistics and delivery management ensuring your orders arrive on time.</p>
-            </div>
-
-            <div class="feature-card">
-                <h3>💼 Admin Dashboard</h3>
-                <p>Comprehensive admin panel for inventory management, order tracking, and analytics.</p>
-            </div>
-
-            <div class="feature-card">
-                <h3>👥 Dealer Portal</h3>
-                <p>Dedicated dealer interface for placing orders, tracking shipments, and managing accounts.</p>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-slide active">
+            <div class="hero-content">
+                <div class="hero-subtitle">Premium</div>
+                <h1 class="hero-title">BATHROOM<br>ACCESSORIES</h1>
             </div>
         </div>
+        
+        <div class="hero-arrow left" onclick="changeSlide(-1)">&#8249;</div>
+        <div class="hero-arrow right" onclick="changeSlide(1)">&#8250;</div>
+        
+        <div class="hero-nav">
+            <div class="hero-dot active" onclick="currentSlide(1)"></div>
+            <div class="hero-dot" onclick="currentSlide(2)"></div>
+            <div class="hero-dot" onclick="currentSlide(3)"></div>
+        </div>
+    </section>
 
-        <div style="text-align: center;">
-            <h2>About Pridel Industries</h2>
-            <p style="max-width: 800px; margin: 1rem auto; font-size: 1.1rem;">
-                Pridel Industries is a leading manufacturer of premium bathroom accessories and floor drains. 
-                Based in London, UK, we serve distributors and dealers globally with innovative products 
-                that combine functionality with elegant design.
+    <!-- About Section -->
+    <section class="about-section" id="about">
+        <h2 class="section-title">ABOUT PRIDEL INDUSTRIES</h2>
+        <p class="section-description">
+            At Pridel Industries, quality is our foundation. Since our establishment in 2018, we have been committed to delivering top-tier products with zero compromise. Specializing in stainless steel floor drain accessories, we ensure excellence at every stage—from design and material selection to machining, inspection, packaging, and dispatch. Every step of our process is meticulously managed under the expert supervision of our highly qualified team, guaranteeing superior craftsmanship and reliability.
+        </p>
+        <a href="#contact" class="black-button">DISCOVER MORE ABOUT US</a>
+    </section>
+
+    <!-- Split Section -->
+    <section class="split-section">
+        <div class="split-content">
+            <h2 class="split-title">FLOOR DRAINS &<br>ACCESSORIES</h2>
+            <p class="split-description">
+                GET THE LOOK. ADD A SPLASH OF STYLE WITH PREMIUM BATHROOM ACCESSORIES. Our comprehensive range includes floor traps, shower channel drains, and premium bathroom fittings designed for modern spaces.
             </p>
-            <a href="https://pridelgroup.com" class="cta-button" target="_blank">Visit Our Main Website →</a>
+            <a href="ordering.html" class="black-button">EXPLORE NOW</a>
         </div>
+        <div class="split-image" style="background-image: linear-gradient(135deg, #00A896 0%, #667eea 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">🚿</div>
+    </section>
 
-                <div style="text-align: center; margin: 3rem 0;">
-                                <h2 style="color: #667eea; margin-bottom: 2rem;">🔗 Quick Access Portals</h2>
-                                <div style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;">
-                                                    <a href="ordering.html" class="cta-button" style="text-decoration: none;">🛒 B2B Ordering Portal</a>
-                                                    <a href="admin.html" class="cta-button" style="text-decoration: none;">📊 Admin Dashboard</a>
-                                                    <a href="dealer.html" class="cta-button" style="text-decoration: none;">👥 Dealer Portal</a>
-                                                </div>
-                            </div>
+    <!-- Collection Section -->
+    <section class="collection-section" id="collection">
+        <h2 class="section-title">OUR COLLECTION</h2>
+        
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="product-image">
+                    <div style="font-size: 6rem;">🚿</div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Floor Trap</h3>
+                    <p class="product-code">PR-101</p>
+                    <a href="ordering.html" class="product-button">VIEW NOW</a>
+                </div>
+            </div>
 
-        <div style="background: #f8f9fa; padding: 2rem; border-radius: 10px; margin: 3rem 0;">
-            <h3 style="text-align: center; color: #667eea; margin-bottom: 1.5rem;">Platform Features</h3>
-            <ul style="max-width: 600px; margin: 0 auto; line-height: 2;">
-                <li>✓ Real-time product catalog from pridelgroup.com</li>
-                <li>✓ Secure authentication for Admin and Dealer roles</li>
-                <li>✓ Order management and tracking system</li>
-                <li>✓ Inventory management with alerts</li>
-                <li>✓ Analytics and reporting dashboard</li>
-                <li>✓ API integration for seamless operations</li>
-            </ul>
+            <div class="product-card">
+                <div class="product-image">
+                    <div style="font-size: 6rem;">🚿</div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Shower Channel Drain</h3>
+                    <p class="product-code">PR-155</p>
+                    <a href="ordering.html" class="product-button">VIEW NOW</a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <div style="font-size: 6rem;">🚿</div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Flat Cut Floor Drain</h3>
+                    <p class="product-code">PR-126</p>
+                    <a href="ordering.html" class="product-button">VIEW NOW</a>
+                </div>
+            </div>
         </div>
+    </section>
+
+    <!-- WhatsApp Widget -->
+    <div class="whatsapp-widget">
+        <a href="https://wa.me/your-number" class="whatsapp-button" target="_blank">
+            <div class="whatsapp-icon">💬</div>
+            <span>Contact us</span>
+        </a>
     </div>
 
+    <!-- Footer -->
     <footer>
-        <p>&copy; 2025 Pridel Industries. All rights reserved.</p>
-        <p style="margin-top: 0.5rem; opacity: 0.8;">B2B Platform v1.0 | London, UK</p>
+        <div class="footer-content">
+            <p>&copy; 2025 Pridel Industries. All rights reserved.</p>
+            <p style="margin-top: 1rem; color: #666;">Premium Bathroom Accessories & Floor Drain Manufacturer</p>
+        </div>
     </footer>
+
+    <script>
+        let slideIndex = 1;
+        showSlides(slideIndex);
+
+        function changeSlide(n) {
+            showSlides(slideIndex += n);
+        }
+
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+        }
+
+        function showSlides(n) {
+            let i;
+            let slides = document.getElementsByClassName("hero-slide");
+            let dots = document.getElementsByClassName("hero-dot");
+            
+            if (n > slides.length) {slideIndex = 1}
+            if (n < 1) {slideIndex = slides.length}
+            
+            for (i = 0; i < slides.length; i++) {
+                slides[i].classList.remove("active");
+            }
+            
+            for (i = 0; i < dots.length; i++) {
+                dots[i].classList.remove("active");
+            }
+            
+            if (slides[slideIndex-1]) {
+                slides[slideIndex-1].classList.add("active");
+            }
+            if (dots[slideIndex-1]) {
+                dots[slideIndex-1].classList.add("active");
+            }
+        }
+
+        // Auto advance slides
+        setInterval(function() {
+            changeSlide(1);
+        }, 5000);
+    </script>
+
 </body>
 </html>
